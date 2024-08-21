@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, DateTime, func
-from src.database import Base
+from sqlalchemy import Column, Integer, String, DateTime
+from src.db import Base
+from sqlalchemy.sql import func
 
 
 class ImageRecord(Base):

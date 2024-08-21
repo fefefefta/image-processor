@@ -1,0 +1,6 @@
+redis
+psycopg2-binary
+Pillow
+alembic
+sqlalchemy
+python-dotenv

@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./modules/api
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_DB: image_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
+
+  image_processing_service:
+    build: ./modules/image_processor
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - MEDIA_PATH=/app/media
+    depends_on:
+      - redis
+
+  image_saver:
+    build: ./modules/image_saver
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: image_db
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      IMAGE_QUEUE: processed_image_queue
+      MEDIA_PATH: /app/media/
+    volumes:
+      - ./media:/app/media
+    depends_on:
+      - postgres
+      - redis
+    entrypoint: ["sh", "/app/entrypoint.sh"]
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: image_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
