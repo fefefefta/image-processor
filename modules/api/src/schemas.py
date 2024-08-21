@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -9,7 +11,8 @@ class ImageData(BaseModel):
 
 
 class ImageResponse(BaseModel):
-    id: str
+    id: UUID
     description: str
     timestamp: datetime
     url: str
+    path: str | None = None

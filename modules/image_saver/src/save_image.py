@@ -25,6 +25,7 @@ def save_image_data(image_data, image_path):
     try:
         timestamp = datetime.fromisoformat(image_data["timestamp"])
         image_record = ImageRecord(
+            id=image_data["id"],
             timestamp=timestamp,
             description=image_data["description"],
             image_path=image_path,

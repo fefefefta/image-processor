@@ -45,13 +45,14 @@ async def list_images(db: Session = Depends(get_db)):
             description=image.description,
             timestamp=image.timestamp,
             url=f"/images/{image.id}",
+            path=image.image_path,
         )
         for image in images
     ]
 
 
 @router.get("/images/{id}", response_model=ImageResponse)
-async def get_image(id: int, db: Session = Depends(get_db)):
+async def get_image(id: str, db: Session = Depends(get_db)):
     image = db.query(ImageRecord).filter(ImageRecord.id == id).first()
     if image is None:
         raise HTTPException(status_code=404, detail="Image not found")
@@ -60,4 +61,5 @@ async def get_image(id: int, db: Session = Depends(get_db)):
         description=image.description,
         timestamp=image.timestamp,
         url=f"/images/{image.id}",
+        path=image.image_path,
     )

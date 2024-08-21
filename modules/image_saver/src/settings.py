@@ -12,7 +12,7 @@ class Settings:
     postgres_host: str = os.getenv("POSTGRES_HOST", "postgres")
     redis_url: str = os.getenv("REDIS_URL", "redis://redis:6379/0")
     image_queue: str = os.getenv("IMAGE_QUEUE", "processed_image_queue")
-    media_path: str = os.getenv("MEDIA_PATH", "/app/media/")
+    media_path: str = os.getenv("MEDIA_PATH", "/media/")
 
 
 settings = Settings()
